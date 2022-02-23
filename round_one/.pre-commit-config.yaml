@@ -1,0 +1,30 @@
+default_stages: [commit]
+repos:
+  # Run autoflake first so that redundant imports are removed before isort
+  - repo: https://github.com/myint/autoflake
+    rev: v1.4
+    hooks:
+      - id: autoflake
+        name: remove unused imports
+        args:
+          - "--remove-all-unused-imports"
+          - "--in-place"
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        files: '\.pyx?$'
+        types: [file]
+  - repo: https://github.com/psf/black
+    rev: 22.1.0
+    hooks:
+      - id: black
+        language_version: python3.8
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 4.0.1
+    hooks:
+      - id: flake8
+        args: [
+            "--extend-ignore=E203,W503",
+            "--max-line-length=99",
+          ]

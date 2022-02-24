@@ -7,10 +7,9 @@ class Assignment(NamedTuple):
     devs: Set[str]
 
 
-class Devs(NamedTuple):
+class Dev(NamedTuple):
     name: str
-    skills: Dict[str, int]
-    used_until: int = 0
+    skills: Dict[str, int] = {}
 
 
 class Requirement(NamedTuple):

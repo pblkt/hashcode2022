@@ -23,3 +23,8 @@ class Project(NamedTuple):
     best_before: int
     score: int
     roles: List[Requirement]
+
+
+class Input(NamedTuple):
+    projects: List[Project] = []
+    devs: Set[Dev] = set()

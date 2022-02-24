@@ -1,0 +1,42 @@
+Input:
+	{
+		"projects": [
+			{
+				"name": "asdasd",
+				"duration": 2, # days
+				"best_before": 50,
+				"score": 100,
+				"roles": [
+					{
+						"skill": "Cool",
+						"min_level": 2
+					}
+				]
+			}
+		]
+		"devs": [
+			{
+				"name": "asd",
+				"skills": {
+					"skill_name": 2
+				}
+			}
+		],
+
+    #####
+    # "union_skills": ...
+	}
+
+Output:
+	# Order matters
+  [
+    {
+      "name": "proj_name",
+      "devs": [
+        "dev_name1",
+        "dev_name2",
+        "dev_name3",
+      ]
+    },
+    # ...
+  ]

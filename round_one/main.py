@@ -15,9 +15,11 @@ def main():
     solver_module = import_module(f"solvers.{solver_module_name}")
     with open(input_path, "r") as f:
         input = deserialize(f.read())
+    with open(input_path, "r") as f:
+        copy_input = deserialize(f.read())
 
     solved = solver_module.solve(input)
-    score = score_solution(input, solved)
+    score = score_solution(copy_input, solved)
     print(f"score: {score}")
     serialized = serialize(solved)
 

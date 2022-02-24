@@ -108,7 +108,7 @@ def is_valid(
     output_dev_names = set()
     for assignment in assignments:
         for dev in assignment.devs:
-            output_dev_names.add(dev.name)
+            output_dev_names.add(dev)
 
 
     input_projects_names = set([project.name for project in projects])

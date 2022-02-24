@@ -10,6 +10,7 @@ class Assignment(NamedTuple):
 class Devs(NamedTuple):
     name: str
     skills: Dict[str, int]
+    used_until: int = 0
 
 
 class Requirement(NamedTuple):

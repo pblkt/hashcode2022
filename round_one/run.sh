@@ -15,6 +15,8 @@ log() { echo "$(date +'%Y-%m-%d %H:%M:%S') - $*" | tee -a "./logs/solver_${solve
 
 zip -r code_submission.zip $(find . -name '*.py') $(find . -name '*.sh')
 echo "Code zipped to code_submission.zip"
+echo "Cleaning output dir"
+rm -rf output/*
 
 log "Started with solver ${solver}"
 for input in $(ls -1 input/); do

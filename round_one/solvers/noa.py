@@ -4,6 +4,7 @@ from typing import Tuple, Optional
 from round_one.our_types import *
 
 
+# print = lambda *args: 1
 
 class LiveDev(SimpleNamespace):
     name: str
@@ -63,6 +64,8 @@ def solve(input: Input):
     assignees = None
 
     project_idx = 0
+    waivered_projects = []
+
     while not assignees and project_idx != len(projects):
         #print("t=", cur_time)
         project = sorted_by_score[project_idx]
@@ -79,6 +82,7 @@ def solve(input: Input):
             if not possible_devs:
                 #print("Project can't be fulfilled, skipping it!")
                 project_idx += 1
+
                 continue
 
             cur_time += 1
@@ -87,6 +91,7 @@ def solve(input: Input):
             for assignee in assignees:
                 assignee.used_until = cur_time + project.duration
 
+            waivered_projects.append(project)
             project_idx += 1
 
             output.append(Assignment(
@@ -94,5 +99,11 @@ def solve(input: Input):
                 devs=[d.name for d in assignees]
             ))
 
-    #print(output)
+    # Fill unused projects
+    for project in waivered_projects:
+        output.append(Assignment(
+            name=project.name,
+            devs=[d.name for d in devs]
+        ))
+
     return output

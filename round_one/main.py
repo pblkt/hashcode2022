@@ -5,9 +5,12 @@ from importlib import import_module
 from deserialize import deserialize
 from serialize import serialize
 
+import sys
+sys.path.append("..")
+
 
 def main():
-    solver_module_name, input_path = sys.argv[1:]
+    input_path, solver_module_name = sys.argv[1:]
     solver_module = import_module(f"solvers.{solver_module_name}")
     with open(input_path, "r") as f:
         input = deserialize(f.read())

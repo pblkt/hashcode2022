@@ -17,8 +17,8 @@ def main():
         input = deserialize(f.read())
 
     solved = solver_module.solve(input)
-    score = score_solution(input, solved)
-    print(f"score: {score}")
+    # score = score_solution(input, solved)
+    # print(f"score: {score}")
     serialized = serialize(solved)
 
     with open(input_path.replace("input", "output"), "w") as f:

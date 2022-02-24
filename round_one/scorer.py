@@ -4,12 +4,14 @@ from typing import Any, Dict, NamedTuple, List, Set, Union
 from round_one.our_types import Project, Dev, Assignment
 
 
-
-
-def score_solution(input: Dict[str, Union[Project, Dev]], assignments: List[Assignment]) -> int:
+def score_solution(
+    input: Dict[str, Union[Project, Dev]], assignments: List[Assignment]
+) -> int:
     assert is_valid(input, assignments)
 
-    projects: Dict[str, Project] = {project.name: project for project in input["projects"]}
+    projects: Dict[str, Project] = {
+        project.name: project for project in input["projects"]
+    }
     devs: Dict[str, Dev] = {dev.name: dev for dev in input["devs"]}
     free_devs = {key for key in devs.keys()}
     running_projects: Dict[str, List[int, Assignment]] = {}
@@ -30,7 +32,9 @@ def score_solution(input: Dict[str, Union[Project, Dev]], assignments: List[Assi
                 project_score = max(0, projects[project_name].score - delay)
                 score += project_score
                 # level up
-                for role, dev in zip(projects[project_name].roles, project_assignment.devs):
+                for role, dev in zip(
+                    projects[project_name].roles, project_assignment.devs
+                ):
                     if dev.skills.get(role.skill, 0) <= role.min_level:
                         if role.skill in dev.skills:
                             dev.skills[role.skill] += 1
@@ -63,7 +67,6 @@ def score_solution(input: Dict[str, Union[Project, Dev]], assignments: List[Assi
     return score
 
 
-
 def validate_assignment(project: Project, devs: List[Dev]) -> bool:
     assert len(project.roles) == len(devs)
 
@@ -73,12 +76,17 @@ def validate_assignment(project: Project, devs: List[Dev]) -> bool:
             if skill not in max_dev_skills:
                 max_dev_skills[skill] = dev.skills.get(skill, 0)
             else:
-                max_dev_skills[skill] = max(max_dev_skills[skill], dev.skills.get(skill, 0))
+                max_dev_skills[skill] = max(
+                    max_dev_skills[skill], dev.skills.get(skill, 0)
+                )
 
     for role, dev in zip(project.roles, devs):
         assert role.min_level <= dev.skills.get(role.skill, 0) or (
             (role.min_level == dev.skills.get(role.skill, 0) + 1)
-            and (role.skill in max_dev_skills and role.min_level <= max_dev_skills[role.skill])
+            and (
+                role.skill in max_dev_skills
+                and role.min_level <= max_dev_skills[role.skill]
+            )
         )
 
     return True

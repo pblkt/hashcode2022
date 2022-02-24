@@ -46,7 +46,7 @@ def deserialize(input: str) -> Input:
         name, *nums = head.split(" ")
         duration, score, best_before, num_roles_to_parse = map(int, nums)
         project = Project(
-            name=name, duration=duration, best_before=best_before, score=score
+            name=name, duration=duration, best_before=best_before, score=score, roles=[]
         )
 
         while num_roles_to_parse:

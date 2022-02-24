@@ -1,10 +1,10 @@
 #!/usr/bin/env python3.8
-from typing import Dict, List, NamedTuple, Set
+from typing import Dict, List, NamedTuple, List
 
 
 class Assignment(NamedTuple):
     name: str
-    devs: Set[str]
+    devs: List[str]
 
 
 class Dev(NamedTuple):
@@ -27,4 +27,4 @@ class Project(NamedTuple):
 
 class Input(NamedTuple):
     projects: List[Project] = []
-    devs: Set[Dev] = set()
+    devs: List[Dev] = []

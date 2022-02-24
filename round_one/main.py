@@ -18,6 +18,7 @@ def main():
     with open(input_path, "r") as f:
         copy_input = deserialize(f.read())
 
+
     solved = solver_module.solve(input)
     score = score_solution(copy_input, solved)
     print(f"score: {score}")

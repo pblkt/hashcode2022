@@ -14,7 +14,7 @@ def deserialize(input: str) -> Input:
 
     devs_to_parse, projs_to_parse = map(int, head.split(" "))
 
-    result = Input()
+    result = Input([], [])
 
     while devs_to_parse:
         devs_to_parse -= 1

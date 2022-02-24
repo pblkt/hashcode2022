@@ -26,5 +26,5 @@ class Project(NamedTuple):
 
 
 class Input(NamedTuple):
-    projects: List[Project] = []
-    devs: List[Dev] = []
+    projects: List[Project]
+    devs: List[Dev]

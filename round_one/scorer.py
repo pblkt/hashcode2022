@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from typing import Any, Dict, NamedTuple, List, Set, Union
 
-from round_one.our_types import Project, Dev, Assignment, Input
+from our_types import Project, Dev, Assignment, Input
 
 
 def score_solution(
@@ -23,7 +23,7 @@ def score_solution(
         first_run = False
 
         running_projects_to_remove = set()
-        for project_name, project_state in running_projects.values():
+        for project_name, project_state in running_projects.items():
             project_start_day, project_assignment = project_state
             # Is DONE?
             if day == project_start_day + projects[project_name].duration:
@@ -35,13 +35,14 @@ def score_solution(
                 for role, dev in zip(
                     projects[project_name].roles, project_assignment.devs
                 ):
-                    if dev.skills.get(role.skill, 0) <= role.min_level:
-                        if role.skill in dev.skills:
-                            dev.skills[role.skill] += 1
+                    if devs[dev].skills.get(role.skill, 0) <= role.min_level:
+                        if role.skill in devs[dev].skills:
+                            devs[dev].skills[role.skill] += 1
                         else:
-                            dev.skills[role.skill] = 1
+                            devs[dev].skills[role.skill] = 1
                 # Free dev
-                free_devs.add(project_assignment.devs)
+                for dev in project_assignment.devs:
+                    free_devs.add(dev)
                 # remove running projects
                 running_projects_to_remove.add(project_name)
 
@@ -103,7 +104,11 @@ def is_valid(
     # Unique project name in output
     assert len(output_project_names) == len(set(output_project_names))
     output_project_names = set(output_project_names)
-    output_dev_names = set([assignment.devs for assignment in assignments])
+    output_dev_names = set()
+    for assignment in assignments:
+        for dev in assignment.devs:
+            output_dev_names.add(dev)
+
 
     input_projects_names = set([project.name for project in projects])
     input_dev_names = set([dev.name for dev in devs])

@@ -1,20 +1,25 @@
 #!/usr/bin/env python3.8
-from typing import Dict, List, NamedTuple
+from typing import Dict, List, NamedTuple, Set
 
 
-class Project(NamedTuple):
-    name: string
-    duration: int
-    best_before: int
-    score: int
-    roles: List[Role]
+class Assingment(NamedTuple):
+    name: str
+    devs: Set[str]
 
 
-class Dev(NamedTuple):
-    name: string
+class Devs(NamedTuple):
+    name: str
     skills: Dict[str, int]
 
 
-class ProjStart(NamedTuple):
+class Requirement(NamedTuple):
+    skill: str
+    min_level: int
+
+
+class Project(NamedTuple):
     name: str
-    dev_names: List[str]
+    duration: int
+    best_before: int
+    score: int
+    roles: List[Requirement]

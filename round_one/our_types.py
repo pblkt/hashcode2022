@@ -1,5 +1,5 @@
 #!/usr/bin/env python3.8
-from typing import Dict, List, NamedTuple, List
+from typing import Dict, List, NamedTuple
 
 
 class Assignment(NamedTuple):
@@ -22,7 +22,7 @@ class Project(NamedTuple):
     duration: int
     best_before: int
     score: int
-    roles: List[Requirement]
+    roles: List[Requirement] = []
 
 
 class Input(NamedTuple):

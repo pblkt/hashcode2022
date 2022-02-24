@@ -1,18 +1,28 @@
 #!/usr/bin/env python3
 from typing import Any, Dict, NamedTuple, List, Set, Union
 
-from round_one.types import Project, Assignment, Dev
+from round_one.our_types import Project, Dev, Assignment
 
 
-def score_solution(input: Dict[str, Any], output: Dict[str, Any]) -> int:
-    if not is_valid(input, output):
-        print("Invalid solution")
-    return 0
+def score_solution(input: Dict[str, Union[Project, Dev]], assignments: List[Assignment]) -> int:
+    projects: Dict[str, Project] = {project.name: project for project in input["projects"]}
+    devs: Dict[str, Dev] = {dev.name: dev for dev in input["devs"]}
 
-    pass
+    for assignment in assignments:
+        current_project = projects[assignment.name]
+        current_devs = [devs[dev] for dev in assignment.devs]
+        validate_assignment(current_project, current_devs)
+
+        # level up
+        for role, dev in zip(current_project.roles, current_devs):
+            if dev.skills[role.skill] <= role.min_level:
+                dev.skills[role.skill] += 1
+
+        # score
 
 
-def validate_assignment(project: Project, devs: Dev) -> bool:
+
+def validate_assignment(project: Project, devs: List[Dev]) -> bool:
     assert len(project.roles) == len(devs)
 
     max_dev_skills = {}
@@ -24,8 +34,8 @@ def validate_assignment(project: Project, devs: Dev) -> bool:
                 max_dev_skills[skill] = max(max_dev_skills[skill], dev.skills[skill])
 
     for role, dev in zip(project.roles, devs):
-        assert role.min_level <= devs.skills.get(role.skill, 0) or (
-            (role.min_level == devs.skills.get(role.skill, 0) + 1)
+        assert role.min_level <= dev.skills.get(role.skill, 0) or (
+            (role.min_level == dev.skills.get(role.skill, 0) + 1)
             and (role.skill in max_dev_skills and role.min_level <= max_dev_skills[role.skill])
         )
 

@@ -24,7 +24,7 @@ def deserialize(input: str) -> Input:
 
         name, skills_to_parse_str = head.split(" ")
         skills_to_parse = int(skills_to_parse_str)
-        dev = Dev(name=name)
+        dev = Dev(name=name, skills={})
 
         while skills_to_parse:
             skills_to_parse -= 1

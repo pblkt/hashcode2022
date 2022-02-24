@@ -9,7 +9,7 @@ class Assignment(NamedTuple):
 
 class Dev(NamedTuple):
     name: str
-    skills: Dict[str, int] = {}
+    skills: Dict[str, int]
 
 
 class Requirement(NamedTuple):
@@ -22,7 +22,7 @@ class Project(NamedTuple):
     duration: int
     best_before: int
     score: int
-    roles: List[Requirement] = []
+    roles: List[Requirement]
 
 
 class Input(NamedTuple):

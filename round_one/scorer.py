@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 from typing import Any, Dict, NamedTuple, List, Set, Union
 
-from round_one.our_types import Project, Dev, Assignment
+from round_one.our_types import Project, Dev, Assignment, Input
 
 
 def score_solution(
-    input: Dict[str, Union[Project, Dev]], assignments: List[Assignment]
+    input: Input, assignments: List[Assignment]
 ) -> int:
     assert is_valid(input, assignments)
 
     projects: Dict[str, Project] = {
-        project.name: project for project in input["projects"]
+        project.name: project for project in input.projects
     }
-    devs: Dict[str, Dev] = {dev.name: dev for dev in input["devs"]}
+    devs: Dict[str, Dev] = {dev.name: dev for dev in input.devs}
     free_devs = {key for key in devs.keys()}
     running_projects: Dict[str, List[int, Assignment]] = {}
 
@@ -93,10 +93,10 @@ def validate_assignment(project: Project, devs: List[Dev]) -> bool:
 
 
 def is_valid(
-    input: Dict[str, Union[Project, Dev]], assignments: List[Assignment]
+    input: Input, assignments: List[Assignment]
 ) -> bool:
-    projects: Project = input["projects"]
-    devs: Dev = input["devs"]
+    projects: List[Project] = input.projects
+    devs: List[Dev] = input.devs
 
     # Sanity
     output_project_names = [assignment.name for assignment in assignments]

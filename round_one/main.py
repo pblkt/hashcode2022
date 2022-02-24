@@ -3,6 +3,7 @@ import sys
 from importlib import import_module
 
 from deserialize import deserialize
+from round_one.scorer import score_solution
 from serialize import serialize
 
 import sys
@@ -16,6 +17,8 @@ def main():
         input = deserialize(f.read())
 
     solved = solver_module.solve(input)
+    score = score_solution(input, solved)
+    print(f"score: {score}")
     serialized = serialize(solved)
 
     with open(input_path.replace("input", "output"), "w") as f:

@@ -64,10 +64,10 @@ def solve(input: Input):
 
     project_idx = 0
     while not assignees and project_idx != len(projects):
-        print("t=", cur_time)
+        #print("t=", cur_time)
         project = sorted_by_score[project_idx]
 
-        print("Checking proj", project.name)
+        #print("Checking proj", project.name)
         available_devs = [d for d in devs if d.used_until < cur_time]
         assignees = find_devs_for_project(project, available_devs)
 
@@ -77,13 +77,13 @@ def solve(input: Input):
 
             possible_devs = find_devs_for_project(project, devs)
             if not possible_devs:
-                print("Project can't be fulfilled, skipping it!")
+                #print("Project can't be fulfilled, skipping it!")
                 project_idx += 1
                 continue
 
             cur_time += 1
         else:
-            print("Found devs!", assignees)
+            #print("Found devs!", assignees)
             for assignee in assignees:
                 assignee.used_until = cur_time + project.duration
 
@@ -94,5 +94,5 @@ def solve(input: Input):
                 devs=[d.name for d in assignees]
             ))
 
-    print(output)
+    #print(output)
     return output

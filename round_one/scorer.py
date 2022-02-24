@@ -40,7 +40,7 @@ def score_solution(input: Dict[str, Union[Project, Dev]], assignments: List[Assi
                 free_devs.add(project_assignment.devs)
                 # remove running projects
                 running_projects_to_remove.add(project_name)
-                
+
         for running_project_to_remove in running_projects_to_remove:
             running_projects.pop(running_project_to_remove)
 
@@ -59,26 +59,9 @@ def score_solution(input: Dict[str, Union[Project, Dev]], assignments: List[Assi
                 copy_assignments.append(assignment)
         assignments = copy_assignments
 
-
-
-
         day += 1
     return score
 
-    for assignment in assignments:
-        current_project = projects[assignment.name]
-        current_devs = [devs[dev] for dev in assignment.devs]
-        validate_assignment(current_project, current_devs)
-
-        # level up
-        for role, dev in zip(current_project.roles, current_devs):
-            if dev.skills.get(role.skill, 0) <= role.min_level:
-                if role.skill in dev.skills:
-                    dev.skills[role.skill] += 1
-                else:
-                    dev.skills[role.skill] = 1
-
-        # score
 
 
 def validate_assignment(project: Project, devs: List[Dev]) -> bool:

@@ -1,0 +1,17 @@
+3 3
+Anna 1
+C++ 8
+Bob 3
+C++ 16
+HTML 14
+CSS 15
+Maria 1
+Python 21
+Logging 5 10 5 1
+C++ 2
+WebServer 7 10 7 2
+HTML 3
+C++ 2
+WebChat 10 20 20 2
+Python 3
+HTML 3

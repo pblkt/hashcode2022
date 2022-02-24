@@ -14,12 +14,13 @@ fi
 log() { echo "$(date +'%Y-%m-%d %H:%M:%S') - $*" | tee -a "./logs/solver_${solver_num}.log"; }
 
 log "Started with solver ${solver}"
-for input in $(ls -1 input/ | head); do
+for input in $(ls -1 input/); do
   input_file="input/${input}"
   log "* Solver $1 solving $input - Started"
 #  node ./main.js "input/${input}" "${solver}"
   PYTHONPATH=. python38 ./main.py "input/${input}" "${solver}"
   log "* Solver $1 solving $input - Done"
+  echo -e "\n\n\n\n"
 done;
 log "Finished with solver ${solver_num}"
 

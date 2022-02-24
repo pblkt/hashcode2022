@@ -1,9 +1,11 @@
+from types import SimpleNamespace
 from typing import Tuple, Optional
 
 from round_one.our_types import *
 
 
-class LiveDev(NamedTuple):
+
+class LiveDev(SimpleNamespace):
     name: str
     skills: Dict[str, int]
     used_until: int = -1
@@ -55,22 +57,30 @@ def solve(input: Input):
     input_devs = input.devs
 
     sorted_by_score = sorted(projects, key=lambda p: p.score)
-    devs = [LiveDev(d.name, d.skills) for d in input_devs]
+    devs = [LiveDev(name=d.name, skills=d.skills, used_until=-1) for d in input_devs]
     output: List[Dict[str, List[str]]] = []
     cur_time = 0
     assignees = None
 
     project_idx = 0
-    while not assignees:
+    while not assignees and project_idx != len(projects):
+        print("t=", cur_time)
         project = sorted_by_score[project_idx]
 
         print("Checking proj", project.name)
         available_devs = [d for d in devs if d.used_until < cur_time]
         assignees = find_devs_for_project(project, available_devs)
 
-        # TODO Other rpojects, concurrent and next time
+        # TODO Other projects, concurrent and next time
         if not assignees:
-            print("Didn't find devs :////")
+            #print("Didn't find devs, checking non-vailable")
+
+            possible_devs = find_devs_for_project(project, devs)
+            if not possible_devs:
+                print("Project can't be fulfilled, skipping it!")
+                project_idx += 1
+                continue
+
             cur_time += 1
         else:
             print("Found devs!", assignees)
@@ -79,9 +89,10 @@ def solve(input: Input):
 
             project_idx += 1
 
-            output.append({
-                "name": project.name,
-                "devs": [d.name for d in assignees]
-            })
+            output.append(Assignment(
+                name=project.name,
+                devs=[d.name for d in assignees]
+            ))
 
+    print(output)
     return output

@@ -10,6 +10,7 @@ from typing import Any, Dict, Tuple, TypeVar
 from deserialize import deserialize
 from scorer import score_solution
 from serialize import serialize
+from datetime import datetime
 
 State = TypeVar("State")
 
@@ -40,6 +41,7 @@ def main():
 
     def signal_handler(sig, frame):
         RESULT_PATH.mkdir(exist_ok=True)
+        print(f"{datetime.now()} - Got Ctrl+C")
 
         while (output_path := pathlib.Path(input_path) / random_string(3)).exists():
             print(f"{output_path=} exists, trying a different random suffix")
@@ -62,9 +64,14 @@ def main():
 
     signal.signal(signal.SIGINT, signal_handler)
 
+    print(f"{datetime.now()} - Started running on {input_path}")
+    i = 0
     while True:
+        print(f"{datetime.now()} - Run #{i} on {input_path}")
+        i += 1
         solution, state = one_solution(input, state)
         if score := score_solution(input, solution) > max_score:
+            print(f"{datetime.now()} - Score beaten! New score is {score}, last max was {max_score}")
             best_solution = solution
             max_score = score
 

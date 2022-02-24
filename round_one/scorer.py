@@ -114,7 +114,6 @@ def is_valid(
     input_projects_names = set([project.name for project in projects])
     input_dev_names = set([dev.name for dev in devs])
     assert output_dev_names <= input_dev_names
-    assert output_project_names == input_projects_names
 
     # Verify each dev appear only once
     for assignment in assignments:

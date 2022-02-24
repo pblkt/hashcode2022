@@ -30,9 +30,15 @@ def is_dev_helpful_without_mentor(project_reqs: List[Requirement], dev: LiveDev)
     return False
 
 
-def is_dev_helpful_with_mentor(project: Project, dev: LiveDev):
+def is_dev_helpful_with_mentor(project: Project, dev: LiveDev, possible_mentors: List[LiveDev]):
     return any(
-        dev.skills.get(role.skill, 0) + 1 >= role.min_level
+        # Possible mentree in <skill>
+        dev.skills.get(role.skill, 0) + 1 >= role.min_level and
+        # Has a relevant mentor in the group
+        any(
+            mentor.skills.get(role.skill, 0) >= role.min_level
+            for mentor in possible_mentors
+        )
         for role in project.roles
     )
 
@@ -45,12 +51,30 @@ def find_devs_for_project(project: Project, avail_devs: List[LiveDev]) -> Option
         if is_dev_helpful_without_mentor(left_requirements_to_fill, dev):
             assigned_devs.append(dev)
 
+        # Cool! Finished without mentoring
         if not left_requirements_to_fill:
             return assigned_devs
 
-        # TODO Mentorship
-    else:
-        return None
+    # Handle mentoring
+    last_len = len(left_requirements_to_fill)
+
+    while True:
+        if len(left_requirements_to_fill) == last_len:
+            break
+
+        possible_mentors = assigned_devs
+        posibble_mentees = list(set(avail_devs).difference(assigned_devs))
+        for dev in posibble_mentees:
+            if is_dev_helpful_with_mentor(left_requirements_to_fill, dev, possible_mentors):
+                assigned_devs.append(dev)
+
+                # Cool! Finished with mentoring
+                if not left_requirements_to_fill:
+                    return assigned_devs
+
+        last_len = len(left_requirements_to_fill)
+
+    return None
 
 
 def solve(input: Input):
@@ -76,11 +100,12 @@ def solve(input: Input):
 
         # TODO Other projects, concurrent and next time
         if not assignees:
-            #print("Didn't find devs, checking non-vailable")
+            #print("Didn't find devs, checking non-available")
 
             possible_devs = find_devs_for_project(project, devs)
             if not possible_devs:
                 #print("Project can't be fulfilled, skipping it!")
+                waivered_projects.append(project)
                 project_idx += 1
 
                 continue
@@ -91,19 +116,11 @@ def solve(input: Input):
             for assignee in assignees:
                 assignee.used_until = cur_time + project.duration
 
-            waivered_projects.append(project)
             project_idx += 1
 
             output.append(Assignment(
                 name=project.name,
                 devs=[d.name for d in assignees]
             ))
-
-    # Fill unused projects
-    for project in waivered_projects:
-        output.append(Assignment(
-            name=project.name,
-            devs=[d.name for d in devs]
-        ))
 
     return output

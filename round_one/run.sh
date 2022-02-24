@@ -13,6 +13,9 @@ fi
 
 log() { echo "$(date +'%Y-%m-%d %H:%M:%S') - $*" | tee -a "./logs/solver_${solver_num}.log"; }
 
+zip -r code_submission.zip $(find . -name '*.py') $(find . -name '*.sh')
+echo "Code zipped to code_submission.zip"
+
 log "Started with solver ${solver}"
 for input in $(ls -1 input/); do
   input_file="input/${input}"
@@ -23,6 +26,3 @@ for input in $(ls -1 input/); do
   echo -e "\n\n\n\n"
 done;
 log "Finished with solver ${solver_num}"
-
-echo "Code zipped to code_submission.zip"
-#zip -r code_submission.zip $(find . -name '*.py') $(find . -name '*.sh')

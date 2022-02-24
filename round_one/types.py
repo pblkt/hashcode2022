@@ -2,7 +2,7 @@
 from typing import Dict, List, NamedTuple, Set
 
 
-class Assingment(NamedTuple):
+class Assignment(NamedTuple):
     name: str
     devs: Set[str]
 

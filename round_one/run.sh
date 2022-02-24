@@ -18,7 +18,7 @@ for input in $(ls -1 input/); do
   input_file="input/${input}"
   log "* Solver $1 solving $input - Started"
   node ./main.js "input/${input}" "${solver}"
-  python3 ./main.py "input/${input}" "${solver}"
+  python3.8 ./main.py "input/${input}" "${solver}"
   log "* Solver $1 solving $input - Done"
 done;
 log "Finished with solver ${solver_num}"
